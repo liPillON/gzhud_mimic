@@ -60,6 +60,6 @@ add this mod at THE END of your load order, to override any pwad-provided hud:
 
 
 ## AUTHOR 
-https://forum.zdoom.org/memberlist.php?mode=viewprofile&u=33863
-https://www.doomworld.com/profile/34495/
+- https://forum.zdoom.org/memberlist.php?mode=viewprofile&u=33863
+- https://www.doomworld.com/profile/34495/
 
