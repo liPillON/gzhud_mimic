@@ -1,0 +1,24 @@
+AddOptionMenu OptionsMenu       { SubMenu "$MIMICHUD_MENU_TITLE", MIMICHUD_MENU }
+AddOptionMenu OptionsMenuSimple { SubMenu "$MIMICHUD_MENU_TITLE", MIMICHUD_MENU }
+
+
+OptionMenu MIMICHUD_MENU
+{
+	Title "$MIMICHUD_MENU_TITLE"
+	StaticText "$MIMICHUD_MENU_VERSION", Black
+	StaticText ""
+	Option "$MIMICHUD_STYLE_OPTION", mimichud_style, MIMICHUD_STYLE_VALUES
+	StaticText ""
+	Option "$MIMICHUD_LEVELINFO_OPTION", mimichud_levelinfo, OnOff
+	Option "$MIMICHUD_MUGSHOT_OPTION", mimichud_mugshot, OnOff
+}
+
+
+OptionValue MIMICHUD_STYLE_VALUES
+{
+	0, "$MIMICHUD_STYLE_VALUE0"
+	1, "$MIMICHUD_STYLE_VALUE1"
+	2, "$MIMICHUD_STYLE_VALUE2"
+	3, "$MIMICHUD_STYLE_VALUE3"
+}
+

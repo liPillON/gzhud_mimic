@@ -1,0 +1,19 @@
+[default]
+
+// submenu text ////////////////////////////////////////////////////////////////
+MIMICHUD_MENU_TITLE = "MimicHUD Settings";
+MIMICHUD_MENU_VERSION = "v2023.01.03";
+
+
+// submenu options /////////////////////////////////////////////////////////////
+MIMICHUD_STYLE_OPTION = "Style";
+MIMICHUD_MUGSHOT_OPTION = "Mugshot";
+MIMICHUD_LEVELINFO_OPTION = "Level Stats";
+
+
+// submenu option values ///////////////////////////////////////////////////////
+MIMICHUD_STYLE_VALUE0 = "GZDOOM";
+MIMICHUD_STYLE_VALUE1 = "ETERNITY";
+MIMICHUD_STYLE_VALUE2 = "BOOM";
+MIMICHUD_STYLE_VALUE3 = "CRISPY";
+

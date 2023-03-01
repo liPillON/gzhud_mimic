@@ -1,0 +1,9 @@
+//used for Hexen-style automap status bars
+//ref: https://zdoom.org/wiki/StatusBar
+
+//the stock DOOM SBARINFO does not provide this
+//ref: $PROGDIR/gzdoom.pk3/sbarinfo/doom.txt
+
+//we define it anyway, EMPTY
+//this way the automap screen will have no StatusBar elements
+StatusBar AutoMap {}

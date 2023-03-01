@@ -1,0 +1,39 @@
+//sets the status bar to the specified game
+//valid games are Doom, Heretic, Hexen, Strife, and None.
+base DOOM;
+
+//setting this to 0 (ZERO) will tell GZDoom to use a fullscreen viewport
+//the normal statusbar will be drawn without using GRNROCK flats as borders
+//the automap screen will not display the statusbar
+height 32;
+
+//If true, continues drawing the border where the status bar is normally placed.
+//Using this will remove the HOM. If false, the border is not drawn behind the status bar.
+CompleteBorder true;
+
+//monospaces all fonts to the specified character of their font
+//alignment changes the position of off size characters within their spacing
+monospacefonts true, "0", center;
+
+// keep "resolution" to "320, 200" if you want to be affected by GZDoom's HUD scaling the same way the stock StatusBar does
+// to avoid any pixel-scaling distortion, I would then suggest to either:
+//  - set HUD_SCALE=6, vid_scalemode=5, vid_scale_customheight=2560, vid_scale_customheight=1440
+//  - set HUD_SCALE=3, vid_scalemode=5, vid_scale_customheight=1280, vid_scale_customheight=720
+// these custom rendering resolutions will then be automatically upscaled/downscaled by GZDoom to your screen resolution
+resolution 320, 200;
+
+
+// StatusBar Automap {} ////////////////////////////////////////////////////////
+// comment-out the #INCLUDE clause to keep the gzdoom-provided definitions
+//#INCLUDE "sbarinfo/sbarinfo.mimicAM"
+
+
+// StatusBar Normal {} /////////////////////////////////////////////////////////
+// comment-out the #INCLUDE clause to keep the gzdoom-provided definitions
+#INCLUDE "sbarinfo/sbarinfo.mimicSB"
+
+
+// StatusBar Fullscreen {} /////////////////////////////////////////////////////
+// comment-out the #INCLUDE clause to keep the gzdoom-provided definitions
+#INCLUDE "sbarinfo/sbarinfo.mimicFS"
+

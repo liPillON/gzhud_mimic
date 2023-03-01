@@ -1,0 +1,381 @@
+//fullscreen hud and inventory
+//ref: https://zdoom.org/wiki/SBARINFO
+
+//customized drawing routines for MimicHUD
+// - added detection of custom PlayerClasses
+// - tweaked support for UsesAmmo/UsesSecondaryAmmo
+// - added Mugshot/InventoryItem/InventoryBar support
+// - added background gfx, providing more visual constrast for Mugshot/InventoryItem/InventoryBar
+// - tweaked layout of the standard GZDoom fullscreen hud
+// - various other styles, inspired by variouns source ports
+
+
+StatusBar InventoryFullscreen, FullscreenOffsets
+{
+	//black (+50% alpha) to full transparency background gradient
+	ifCvarInt mimichud_mugshot, 0, equal {
+		DrawImage "STGRDN50", -160+center, -32;
+	}
+
+	//InventoryBar
+	DrawInventoryBar doom, AlwaysShowCounter, NoArtiBox, 1, MimicFNT_CIDX, -14+center, -30, 13+center, -8, MimicCLR_GLD;
+}
+
+
+
+
+StatusBar Fullscreen, FullscreenOffsets
+{
+	//black (+50% alpha) to full transparency background gradient
+	ifCvarInt mimichud_mugshot, 1, equal {
+		DrawImage "STGRDN50", -160+center, -32;
+	}
+
+	//InventoryItem XOR (if enabled) MugShot
+	DrawSelectedInventory AlternateOnEmpty, AlwaysShowCounter, MimicFNT_CIDX, -14+center, -30, 13+center, -8, MimicCLR_GLD {
+		ifCvarInt mimichud_mugshot, 1, equal {
+			DrawMugshot 5, -17+center, -32;
+		}
+	}
+
+
+
+//GZDOOM ///////////////////////////////////////////////////////////////////////
+ifCvarInt mimichud_style, 0, equal
+{
+	//health
+	DrawNumber 3, HUDFONT_DOOM, untranslated, health, DrawShadow(0,0), 45, -18;
+	inInventory PowerStrength {
+		DrawImage "PSTRA0", 59, -10, center, 22, 14;
+	} else {
+		DrawImage "MEDIA0", 59, -10, center, 22, 14;
+	}
+
+	//armor
+	InInventory BasicArmor, 1 {
+		DrawNumber 3, HUDFONT_DOOM, untranslated, armor, DrawShadow(0,0), 45, -36;
+		DrawImage ArmorIcon, 59, -28, center, 22, 14;
+	}
+
+	//keys
+	DrawSwitchableImage KeySlot 2 && 5, "NullImage", "STKEYS0", "STKEYS3", "STKEYS6", 77, -9, center; //blu
+	DrawSwitchableImage KeySlot 3 && 6, "NullImage", "STKEYS1", "STKEYS4", "STKEYS7", 86, -9, center; //ylw
+	DrawSwitchableImage KeySlot 1 && 4, "NullImage", "STKEYS2", "STKEYS5", "STKEYS8", 95, -9, center; //red
+
+	//ammo
+	UsesSecondaryAmmo {
+		//current clip
+		DrawImage WeaponIcon, -12, -28, center, 38, 14;
+		DrawNumber 3, HUDFONT_DOOM, untranslated, ammo1, DrawShadow(0,0), -23, -36;
+		//current weapon
+		DrawImage AmmoIcon2, -12, -10, center, 22, 14;
+		DrawNumber 3, HUDFONT_DOOM, untranslated, ammo2, DrawShadow(0,0), -23, -18;
+	} else UsesAmmo {
+		//current weapon
+		DrawImage AmmoIcon1, -12, -10, center, 22, 14;
+		DrawNumber 3, HUDFONT_DOOM, untranslated, ammo1, DrawShadow(0,0), -23, -18;
+	} else {
+		//melee
+		//DrawImage WeaponIcon, -19, -10, center, 38, 14;
+	}
+
+	ifCvarInt mimichud_levelinfo, 1, equal {
+		//kills
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, kills, -31, 3;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 3;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, monsters, -10, 3;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "K", -2, 2;
+		//items
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, items, -31, 11;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 11;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, totalItems, -10, 11;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "I", -2, 10;
+		//secrets
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, secrets, -31, 19;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 19;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, totalSecrets, -10, 19;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "S", -2, 18;
+	}
+} //GZDOOM
+
+
+
+//ETERNITY /////////////////////////////////////////////////////////////////////
+ifCvarInt mimichud_style, 1, equal
+{
+	//health
+	DrawImage "EHUDHLTH", 3, -24;
+	ifHealth 101 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_BLU, health, 36, -24;
+	} else
+	ifHealth 51 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_GRN, health, 36, -24;
+	} else
+	ifHealth 26 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_GLD, health, 36, -24;
+	} else
+	ifHealth 1 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_RED, health, 36, -24;
+	} else {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_RED, health, 36, -24;
+	}
+
+	//armor
+	DrawImage "EHUDARMR", 3, -12;
+	InInventory BasicArmor, 101 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_BLU, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 51 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_GRN, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 26 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_GLD, armor, 36, -12;
+	} else
+	InInventory BasicArmor, 1 {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_RED, armor, 36, -12;
+	} else {
+		DrawNumber 3, MimicFNT_EBIG, MimicCLR_RED, armor, 36, -12;
+	}
+
+	//dividing line
+	DrawImage "EHUDVLNE", 38, -23;
+
+	//arms
+	DrawString MimicFNT_EHUD, untranslated, "ARMS", 66, -24;
+	DrawSwitchableImage WeaponSlot 1, "ENUMS049", "ENUMSY49", 68, -24;
+	DrawSwitchableImage WeaponSlot 2, "ENUMS050", "ENUMSY50", 73, -24;
+	DrawSwitchableImage WeaponSlot 3, "ENUMS051", "ENUMSY51", 78, -24;
+	DrawSwitchableImage WeaponSlot 4, "ENUMS052", "ENUMSY52", 83, -24;
+	DrawSwitchableImage WeaponSlot 5, "ENUMS053", "ENUMSY53", 88, -24;
+	DrawSwitchableImage WeaponSlot 6, "ENUMS054", "ENUMSY54", 93, -24;
+	DrawSwitchableImage WeaponSlot 7, "ENUMS055", "ENUMSY55", 98, -24;
+
+	//ammo
+	DrawString MimicFNT_EHUD, untranslated, "AMMO", 66, -16;
+	UsesSecondaryAmmo {
+		//clip-current-maximum
+		DrawNumber 3, MimicFNT_EMED, MimicCLR_GLD, Ammo1, FillZeros, 89, -16;
+		DrawImage "EHUDSLSH", 90, -16;
+		DrawNumber 3, MimicFNT_EMED, MimicCLR_GLD, Ammo2, FillZeros, 116, -16;
+		DrawImage "EHUDSLSH", 117, -16;
+		DrawNumber 3, MimicFNT_EMED, MimicCLR_GLD, Ammo2Capacity, FillZeros, 143, -16;
+	} else UsesAmmo {
+		//ammunition: current-maximum
+		DrawNumber 3, MimicFNT_EMED, MimicCLR_GLD, Ammo1, FillZeros, 89, -16;
+		DrawImage "EHUDSLSH", 90, -16;
+		DrawNumber 3, MimicFNT_EMED, MimicCLR_GLD, Ammo1Capacity, FillZeros, 116, -16;
+	} else {
+		//melee
+		inInventory PowerStrength {
+			DrawString MimicFNT_EHUD, MimicCLR_RED, "BSK", 86, -16;
+		} else {
+			DrawImage "EHUDNFNT", 68, -16;
+		}
+	}
+
+	//keys
+	DrawString MimicFNT_EHUD, untranslated, "KEYS", 66, -8;
+	DrawKeyBar 6, horizontal, 8, 68, -9;
+
+	ifCvarInt mimichud_levelinfo, 1, equal {
+		//kills
+		DrawNumber 4, MimicFNT_ESMA, untranslated, kills, -57, -24;
+		DrawImage "EHUDSLSH", -56, -24;
+		DrawNumber 4, MimicFNT_ESMA, untranslated, monsters, -35, -24;
+		DrawString MimicFNT_EHUD, MimicCLR_RED, "KILLS", -3, -24;
+		//items
+		DrawNumber 4, MimicFNT_ESMA, untranslated, items, -57, -16;
+		DrawImage "EHUDSLSH", -56, -16;
+		DrawNumber 4, MimicFNT_ESMA, untranslated, totalItems, -35, -16;
+		DrawString MimicFNT_EHUD, MimicCLR_BLU, "ITEMS", -3, -16;
+		//secrets
+		DrawNumber 4, MimicFNT_ESMA, untranslated, secrets, -57, -8;
+		DrawImage "EHUDSLSH", -56, -8;
+		DrawNumber 4, MimicFNT_ESMA, untranslated, totalSecrets, -35, -8;
+		DrawString MimicFNT_EHUD, MimicCLR_GLD, "SCRTS", -3, -8;
+	}
+} //ETERNITY
+
+
+
+//BOOM STOCK ///////////////////////////////////////////////////////////////////
+ifCvarInt mimichud_style, 2, equal
+{
+	//keys
+	DrawString MimicFNT_BHUD, MimicCLR_GRY, "KEY", 17, -41;
+	DrawKeyBar 6, horizontal, 12, 21, -41;
+
+	//weapon slots
+	DrawString MimicFNT_BHUD, MimicCLR_GRY, "WEA", 17, -33;
+	DrawSwitchableImage WeaponSlot 1, "", "BNUMY049",  21, -33;
+	DrawSwitchableImage WeaponSlot 2, "", "BNUMY050",  30, -33;
+	DrawSwitchableImage WeaponSlot 3, "", "BNUMY051",  39, -33;
+	DrawSwitchableImage WeaponSlot 4, "", "BNUMY052",  48, -33;
+	DrawSwitchableImage WeaponSlot 5, "", "BNUMY053",  57, -33;
+	DrawSwitchableImage WeaponSlot 6, "", "BNUMY054",  66, -33;
+	DrawSwitchableImage WeaponSlot 7, "", "BNUMY055",  75, -33;
+
+	//ammo
+	DrawString MimicFNT_BHUD, MimicCLR_GRY, "AMM", 17, -25;
+	UsesSecondaryAmmo {
+		//slider-clip-current-maximum
+		DrawBar "PRBARGLD", "PRBARBKG", Ammo2, horizontal, 21, -24;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, Ammo1, FillZeros, 90, -25;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", 95, -25;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, Ammo2, FillZeros, 110, -25;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", 115, -25;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, Ammo2Capacity, FillZeros, 130, -25;
+	} else UsesAmmo {
+		//slider-current-maximum
+		DrawBar "PRBARGLD", "PRBARBKG", Ammo1, horizontal, 21, -24;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, Ammo1, FillZeros, 90, -25;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", 95, -25;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, Ammo1Capacity, FillZeros, 110, -25;
+	} else {
+		//melee
+		inInventory PowerStrength {
+			DrawString MimicFNT_BHUD, MimicCLR_RED, "BSK", 90, -25;
+		} else {
+			DrawString MimicFNT_BHUD, MimicCLR_GLD, "N/A", 90, -25;
+		}
+	}
+
+	//health
+	DrawString MimicFNT_BHUD, MimicCLR_GRY, "HEL", 17, -17;
+	ifHealth 101 {
+		DrawBar "PRBARBLU", "PRBARBKG", health, horizontal, 21, -16;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_BLU, health, FillZeros, 90, -17;
+	} else
+	ifHealth 51 {
+		DrawBar "PRBARGRN", "PRBARBKG", health, horizontal, 21, -16;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GRN, health, FillZeros, 90, -17;
+	} else
+	ifHealth 26 {
+		DrawBar "PRBARGLD", "PRBARBKG", health, horizontal, 21, -16;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, health, FillZeros, 90, -17;
+	} else {
+		DrawBar "PRBARRED", "PRBARBKG", health, horizontal, 21, -16;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_RED, health, FillZeros, 90, -17;
+	}
+
+	//armor
+	DrawString MimicFNT_BHUD, MimicCLR_GRY, "ARM", 17, -9;
+	InInventory BasicArmor, 101 {
+		DrawBar "PRBARBLU", "PRBARBKG", armor, horizontal, 21, -8;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_BLU, armor, FillZeros, 90, -9;
+	} else
+	InInventory BasicArmor, 51 {
+		DrawBar "PRBARGRN", "PRBARBKG", armor, horizontal, 21, -8;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GRN, armor, FillZeros, 90, -9;
+	} else
+	InInventory BasicArmor, 26 {
+		DrawBar "PRBARGLD", "PRBARBKG", armor, horizontal, 21, -8;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_GLD, armor, FillZeros, 90, -9;
+	} else {
+		DrawBar "PRBARRED", "PRBARBKG", armor, horizontal, 21, -8;
+		DrawNumber 3, MimicFNT_BHUD, MimicCLR_RED, armor, FillZeros, 90, -9;
+	}
+
+	ifCvarInt mimichud_levelinfo, 1, equal {
+		//kills
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, kills, -35, -25;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", -30, -25;
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, monsters, -10, -25;
+		DrawString MimicFNT_BHUD, MimicCLR_GRY, "K", -2, -25;
+		//items
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, items, -35, -17;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", -30, -17;
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, totalItems, -10, -17;
+		DrawString MimicFNT_BHUD, MimicCLR_GRY, "I", -2, -17;
+		//secrets
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, secrets, -35, -9;
+		DrawString MimicFNT_BHUD, MimicCLR_GLD, "/", -30, -9;
+		DrawNumber 4, MimicFNT_BHUD, MimicCLR_GLD, totalSecrets, -10, -9;
+		DrawString MimicFNT_BHUD, MimicCLR_GRY, "S", -2, -9;
+	}
+} //BOOM STOCK
+
+
+
+//CRISPY STOCK /////////////////////////////////////////////////////////////////
+ifCvarInt mimichud_style, 3, equal
+{
+	//ammo
+	DrawImage "LABLAMMO", 8, -9;
+	UsesSecondaryAmmo {
+		//current ammo
+		DrawNumber 3, MimicFNT_CBIG, untranslated, ammo1, DrawShadow(0,0), 44, -29;
+		//current weapon
+		DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammo2, 44, -17;
+	} else UsesAmmo {
+		//current weapon
+		DrawNumber 3, MimicFNT_CBIG, untranslated, ammo1, DrawShadow(0,0), 44, -29;
+	} else {
+		//melee
+		//DrawImage WeaponIcon, 24, -20, center, 38, 14;
+		inInventory PowerStrength {
+			drawimage "PSTRA0", 24, -20, center, 22, 14;
+		}
+	}
+
+	//health
+	DrawImage "LABLHLTH", 55, -9;
+	DrawNumber 3, MimicFNT_CBIG, untranslated, health, DrawShadow(0,0), 90, -29;
+	DrawImage "CBIGRPCT", 90, -29;
+
+	//weapon slots
+	DrawImage "LABLARMS", 109, -9;
+	DrawSwitchableImage WeaponSlot 2, "CIDXG050", "CIDXY050", 111, -28;
+	DrawSwitchableImage WeaponSlot 3, "CIDXG051", "CIDXY051", 121, -28;
+	DrawSwitchableImage WeaponSlot 4, "CIDXG052", "CIDXY052", 131, -28;
+	DrawSwitchableImage WeaponSlot 5, "CIDXG053", "CIDXY053", 111, -18;
+	DrawSwitchableImage WeaponSlot 6, "CIDXG054", "CIDXY054", 121, -18;
+	DrawSwitchableImage WeaponSlot 7, "CIDXG055", "CIDXY055", 131, -18;
+
+	//armor
+	DrawImage "LABLARMR", -132, -9;
+	DrawNumber 3, MimicFNT_CBIG, untranslated, armor, DrawShadow(0,0), -99, -29;
+	DrawImage "CBIGRPCT", -99, -29;
+
+	//keys
+	DrawSwitchableImage KeySlot 2 && 5, "NullImage", "STKEYS0", "STKEYS3", "STKEYS6", -81, -29; //blu
+	DrawSwitchableImage KeySlot 3 && 6, "NullImage", "STKEYS1", "STKEYS4", "STKEYS7", -81, -20; //ylw
+	DrawSwitchableImage KeySlot 1 && 4, "NullImage", "STKEYS2", "STKEYS5", "STKEYS8", -81, -11;  //red
+
+	//ammo tally (only for stock doomplayer class)
+	DrawImage "LABLTLLY", -66, -27;
+	PlayerType DoomPlayer {
+		PlayerClass Marine {
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammo Clip, -32, -27;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammo Shell, -32, -21;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammo RocketAmmo, -32, -15;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammo Cell, -32, -9;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammoCapacity Clip, -6, -27;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammoCapacity Shell, -6, -21;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammoCapacity RocketAmmo, -6, -15;
+			DrawNumber 3, MimicFNT_CIDX, MimicCLR_GLD, ammoCapacity Cell, -6, -9;
+		}
+	}
+
+	ifCvarInt mimichud_levelinfo, 1, equal {
+		//kills
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, kills, -31, 3;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 3;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, monsters, -10, 3;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "K", -2, 2;
+		//items
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, items, -31, 11;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 11;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, totalItems, -10, 11;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "I", -2, 10;
+		//secrets
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, secrets, -31, 19;
+		DrawString MimicFNT_ISTT, MimicCLR_BLK, "/", -26, 19;
+		DrawNumber 4, MimicFNT_ISTT, MimicCLR_BLK, totalSecrets, -10, 19;
+		DrawString MimicFNT_BHUD, MimicCLR_DRK, "S", -2, 18;
+	}
+} //CRISPY STOCK
+
+
+
+} //StatusBar Fullscreen

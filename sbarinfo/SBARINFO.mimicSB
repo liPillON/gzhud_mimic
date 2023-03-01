@@ -1,0 +1,101 @@
+//standard status and inventory bars
+//ref: https://zdoom.org/wiki/SBARINFO
+
+//customized drawing routines for MimicHUD
+// - added detection of custom PlayerClasses
+// - added support for UsesAmmo/UsesSecondaryAmmo
+// - tweaked Mugshot/InventoryItem/InventoryBar positioning
+// - added background gfx, drawn above GRNROCK and below STBAR
+
+
+StatusBar Inventory
+{
+	drawinventorybar doom, AlwaysShowCounter, NoArtiBox, 1, INDEXFONT, 146, 170, 173, 192;
+}
+
+
+StatusBar Normal
+{
+	//black (+25% alpha) uniform background
+	drawimage "STBKGR25", 0, 168;
+
+	//stock background (including frags panel) and percent symbols
+	drawimage "STBAR", 0, 168;
+	drawimage "STTPRCNT", 90, 171;
+	drawimage "STTPRCNT", 221, 171;
+
+//ammo
+UsesSecondaryAmmo {
+	//current clip
+	drawnumber 3, HUDFONT_DOOM, untranslated, ammo1, 44, 171;
+	//current weapon
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammo2, 44, 183;
+} else UsesAmmo {
+	//current weapon
+	drawnumber 3, HUDFONT_DOOM, untranslated, ammo1, 44, 171;
+} else {
+	//melee
+	//DrawImage WeaponIcon, 24, 180, center, 38, 14;
+	inInventory PowerStrength {
+		drawimage "PSTRA0", 24, 180, center, 22, 14;
+	}
+}
+
+	//health
+	drawnumber 3, HUDFONT_DOOM, untranslated, health, 90, 171;
+
+	//armor
+	drawnumber 3, HUDFONT_DOOM, untranslated, armor, 221, 171;
+
+	//keys (from top to bottom: blue, yellow, red)
+	drawswitchableimage keyslot 2 && 5, "nullimage", "STKEYS0", "STKEYS3", "STKEYS6", 239, 171;
+	drawswitchableimage keyslot 3 && 6, "nullimage", "STKEYS1", "STKEYS4", "STKEYS7", 239, 181;
+	drawswitchableimage keyslot 1 && 4, "nullimage", "STKEYS2", "STKEYS5", "STKEYS8", 239, 191;
+
+//ammo tally (only for the stock Doom PlayerClass)
+PlayerType DoomPlayer {
+PlayerClass Marine {
+	//current ammo
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammo(Clip), 288, 173;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammo(Shell), 288, 179;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammo(RocketAmmo), 288, 185;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammo(Cell), 288, 191;
+	//maximum ammo
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammocapacity(Clip), 314, 173;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammocapacity(Shell), 314, 179;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammocapacity(RocketAmmo), 314, 185;
+	drawnumber 3, INDEXFONT_DOOM, untranslated, ammocapacity(Cell), 314, 191;
+}
+}
+
+	//frags count (for PvP gamemodes)
+	gamemode deathmatch, teamgame
+	{
+		drawnumber 2, HUDFONT_DOOM, untranslated, frags, 138, 171;
+	}
+
+	//arms panel (for PvE gamemodes, drawn over frags panel)
+	gamemode cooperative, singleplayer
+	{
+		drawimage "STARMS", 104, 168;
+		drawswitchableimage weaponslot 2, "STGNUM2", "STYSNUM2", 111, 172;
+		drawswitchableimage weaponslot 3, "STGNUM3", "STYSNUM3", 123, 172;
+		drawswitchableimage weaponslot 4, "STGNUM4", "STYSNUM4", 135, 172;
+		drawswitchableimage weaponslot 5, "STGNUM5", "STYSNUM5", 111, 182;
+		drawswitchableimage weaponslot 6, "STGNUM6", "STYSNUM6", 123, 182;
+		drawswitchableimage weaponslot 7, "STGNUM7", "STYSNUM7", 135, 182;
+	}
+
+	//colored mugshot background (multiplayer gamemodes)
+	gamemode cooperative, deathmatch, teamgame
+	{
+		drawimage translatable "STFBANY", 143, 169;
+	}
+
+	//inventory item (or mugshot, if no item is selected)
+	DrawSelectedInventory AlternateOnEmpty, INDEXFONT, 146, 170, 173, 192
+	{
+		drawmugshot "STF", 5, 143, 168;
+	}
+
+} //StatusBar Normal

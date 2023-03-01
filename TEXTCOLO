@@ -1,0 +1,102 @@
+// WE NEED CUSTOM COLOR DEFINITIONS TO ENSURE CONSISTENCY ACROSS PWADs
+
+// taken from GZDoom's own .pk3 (color: "Gold")
+StockCLR_GLD
+{
+	#732B00  #FFFF73
+Console:
+	#000000  #7FC040    0 127
+	#DFBF00  #DFFFFE  128 256
+Flat:
+	#FFCC00
+}
+
+// taken from GZDoom's own .pk3 (color: "Red")
+MimicCLR_RED
+{
+	#3F0000  #FF0000
+Console:
+	#000000  #7F0000    0 127
+	#FF0000  #FFFEFE  128 256
+Flat:
+	#FF5566
+}
+
+// taken from Tango's Supercharge (color: "Gold")
+MimicCLR_GLD
+{
+		#070707	#232323	0	42	// grey outline
+		#784918	#F3A718	43	207
+		#F3A82A	#FCD043	208	256
+	Console:
+		#000000	#7F7F00	0	127
+		#FFFF00	#FFFFFF	128	256
+	Flat:
+		#EEEE33
+}
+
+// taken from GZDoom's own .pk3 (color: "DarkGreen")
+MimicCLR_GRN
+{
+	#0B1707  #439337
+Console:
+	#000000  #005800    0 127
+	#008C00  #DCFFDC  128 256
+Flat:
+	#008C00
+}
+
+// taken from GZDoom's own .pk3 (color: "Blue")
+MimicCLR_BLU
+{
+	#000027  #0000FF
+Console:
+	#000000  #00007F    0 127
+	#4040FF  #DEDEFF  128 256
+Flat:
+	#9999FF
+}
+
+// taken from GZDoom's own .pk3 (color: "White")
+MimicCLR_WHT
+{
+	#242424  #FFFFFF
+Console:
+	#000000  #7F7F7F    0 127
+	#808080  #FFFFFF  128 256
+Flat:
+	#DFDFDF
+}
+
+// taken from GZDoom's own .pk3 (color: "Gray")
+MimicCLR_GRY
+{
+	#272727  #EFEFEF
+Console:
+	#272727  #8B8B8B    0 127
+	#505050  #FFFFFF  128 256
+Flat:
+	#CCCCCC
+}
+
+// taken from GZDoom's own .pk3 (color: "DarkGray")
+MimicCLR_DRK
+{
+	#232323  #8B8B8B
+Console:
+	#000000  #646464    0 127
+	#404040  #B4B4B4  128 256
+Flat:
+	#808080
+}
+
+// taken from GZDoom's own .pk3 (color: "Black")
+MimicCLR_BLK
+{
+	#131313  #505050
+Console:
+	#000000  #323232    0 127
+	#0A0A0A  #505050  128 256
+Flat:
+	#000000
+}

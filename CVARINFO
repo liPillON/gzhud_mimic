@@ -1,0 +1,3 @@
+user int mimichud_style = 0;
+user bool mimichud_mugshot = false;
+user bool mimichud_levelinfo = false;

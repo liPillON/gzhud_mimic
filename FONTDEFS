@@ -1,0 +1,32 @@
+MimicFNT_BHUD
+{
+	TEMPLATE BHUDW%03d
+}
+MimicFNT_ISTT
+{
+	TEMPLATE ISTTW%03d
+}
+MimicFNT_EHUD //Eternity Engine: Alphabetical
+{
+	TEMPLATE EHUDW%03d
+}
+MimicFNT_EBIG //Eternity Engine: Digits (Large)
+{
+	TEMPLATE ENUML%03d
+}
+MimicFNT_EMED //Eternity Engine: Digits (Medium)
+{
+	TEMPLATE ENUMM%03d
+}
+MimicFNT_ESMA //Eternity Engine: Digits (Small)
+{
+	TEMPLATE ENUMS%03d
+}
+MimicFNT_CBIG
+{
+	TEMPLATE CBIGR%03d
+}
+MimicFNT_CIDX
+{
+	TEMPLATE CIDXG%03d
+}
