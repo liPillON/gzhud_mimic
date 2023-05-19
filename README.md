@@ -11,6 +11,9 @@ A little SBARINFO mod which mimics (duh) the hud of some popular ports.
 This way you can feel at home by playing in GZDoom and using the HUD of other ports.
 
 
+![README](https://raw.githubusercontent.com/liPillON/gzhud_mimic/main/README.jpg)
+
+
 
 ## FEATURES 
 - 4 main styles: GZDoom, Eternity, Boom, Crispy
