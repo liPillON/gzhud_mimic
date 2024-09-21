@@ -46,15 +46,14 @@ Flat:
 	#008C00
 }
 
-// taken from GZDoom's own .pk3 (color: "Blue")
+// taken from Tango's Supercharge (color: "Blue")
 MimicCLR_BLU
 {
-	#000027  #0000FF
+	#000D23  #005CFF
 Console:
-	#000000  #00007F    0 127
-	#4040FF  #DEDEFF  128 256
-Flat:
-	#9999FF
+        #000D23  #005CFF
+~Flat:
+        #005CFF
 }
 
 // taken from GZDoom's own .pk3 (color: "White")
